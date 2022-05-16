@@ -65,7 +65,9 @@ class SIUNITX:
             return SIUNITX(other.scl/self.scl,other.siu/self.siu)
         else: raise ValueError("Invalid / operation")
     def __pow__(self,other):
-        return SIUNITX(self.scl**other,self.siu*other)
+        if isinstance(other,NUMTYP):
+            return SIUNITX(self.scl**other,self.siu*other)
+        else: raise ValueError("Invalid ** operation")
     def __str__(self):
         stro="%e"%(self.scl)
         if self.siu[0]!=0: stro+=" s^"+str(self.siu[0])
