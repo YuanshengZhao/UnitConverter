@@ -7,6 +7,7 @@ class SIUNITX:
         if isinstance(scl,NUMTYP): self.scl=scl
         else: raise ValueError("Invalid initializer")
         if isinstance(unt,np.ndarray):
+            if (len(unt)!=5 or not np.issubdtype(unt.dtype, np.number)): raise ValueError("Invalid initializer")
             self.siu=unt.copy()
         elif isinstance(unt,SIUNITX):
             self.siu=unt.siu.copy()
@@ -39,10 +40,6 @@ class SIUNITX:
             if not np.array_equal(SCALAR,self.siu):
                 raise ValueError("Dimension mismatch")
             return SIUNITX(other-self.scl,self.siu)
-        elif isinstance(other,SIUNITX):
-            if not np.array_equal(other.siu,self.siu):
-                raise ValueError("Dimension mismatch")
-            return SIUNITX(other.scl-self.scl,self.siu)
         else: raise ValueError("Invalid - operation")
     def __mul__(self,other):
         if isinstance(other,NUMTYP):
@@ -61,8 +58,6 @@ class SIUNITX:
     def __rtruediv__(self,other):
         if isinstance(other,NUMTYP):
             return SIUNITX(other/self.scl,-self.siu)
-        elif isinstance(other,SIUNITX):
-            return SIUNITX(other.scl/self.scl,other.siu/self.siu)
         else: raise ValueError("Invalid / operation")
     def __pow__(self,other):
         if isinstance(other,NUMTYP):
@@ -105,3 +100,5 @@ Tesla                  =  SIUNITX(1                           ,np.array([-2  ,  
 BohrRadius             =  SIUNITX(5.29177210903e-11           ,np.array([ 0  ,  1  ,  0  ,  0  ,  0  ]))
 FineStructureConstant  =  SIUNITX(0.0072973525                ,np.array([ 0  ,  0  ,  0  ,  0  ,  0  ]))
 KilogramPerCubicmetre  =  SIUNITX(1                           ,np.array([ 0  , -3  ,  1  ,  0  ,  0  ]))
+Gigapascal             =  SIUNITX(1e9                         ,np.array([-2  , -1  ,  1  ,  0  ,  0  ]))
+Atmospheres            =  SIUNITX(101325                      ,np.array([-2  , -1  ,  1  ,  0  ,  0  ]))
