@@ -73,6 +73,18 @@ class SIUNITX:
         return stro
     def __repr__(self):
         return self.__str__()
+    # convert to other
+    def __call__(self,other=1):
+        if isinstance(other,NUMTYP):
+            if not np.array_equal(SCALAR,self.siu):
+                raise ValueError("Dimension mismatch")
+            return self.scl/other
+        elif isinstance(other,SIUNITX):
+            if not np.array_equal(other.siu,self.siu):
+                raise ValueError("Dimension mismatch")
+            return self.scl/other.scl
+        else: raise ValueError("Invalid () operation")
+
                                                                         # s     m     kg    A     K   
 Second                 =  SIUNITX(1                           ,np.array([ 1  ,  0  ,  0  ,  0  ,  0  ]))
 Metre                  =  SIUNITX(1                           ,np.array([ 0  ,  1  ,  0  ,  0  ,  0  ]))
@@ -89,7 +101,7 @@ Angstrom               =  SIUNITX(1e-10                       ,np.array([ 0  ,  
 Femtosecond            =  SIUNITX(1e-15                       ,np.array([ 1  ,  0  ,  0  ,  0  ,  0  ]))
 Dalton                 =  SIUNITX(1.66053906660e-27           ,np.array([ 0  ,  0  ,  1  ,  0  ,  0  ]))
 MassOfElectron         =  SIUNITX(9.1093837015e-31            ,np.array([ 0  ,  0  ,  1  ,  0  ,  0  ]))
-BoltmannConstant       =  SIUNITX(1.380649e-23                ,np.array([-2  ,  2  ,  1  ,  0  , -1  ]))
+BoltzmannConstant      =  SIUNITX(1.380649e-23                ,np.array([-2  ,  2  ,  1  ,  0  , -1  ]))
 SpeedOfLight           =  SIUNITX(299792458                   ,np.array([-1  ,  1  ,  0  ,  0  ,  0  ]))
 ElectricConstant       =  SIUNITX(8.8541878128e-12            ,np.array([ 4  , -3  , -1  ,  2  ,  0  ]))
 ElementaryCharge       =  SIUNITX(1.602176634e-19             ,np.array([ 1  ,  0  ,  0  ,  1  ,  0  ]))
